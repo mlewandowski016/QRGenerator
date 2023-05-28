@@ -6,19 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css" content="text/css">
     <title>QR Code Generator</title>
 </head>
 
 <body>
-    <div class="bg-dark fw-bold text-white p-3 mb-2 mx-auto text-center"> QR Code Generator </div>
-    <div class="container form-group">
-        <form id="form" action="qrcode" method="post" class="p-3">
-            <label for="url" class="fw-semibold"> Wprowadź link: </label>
-            <input type="text" name="url" class="form-control" required />
-            <button id="button" type="submit" class="btn btn-dark fw-semibold"> Generuj </button>
+    <header class="header"> QR Code Generator </header>
+    <div class="container">
+        <form id="form" action="qrcode" method="post" class="form">
+            <label for="url" class=""> Wprowadź link: </label>
+            <input type="text" name="url" class="" required />
+            <button id="button" type="submit" class=""> Generuj </button>
         </form>
-        <div id="generated-QR-code"></div>
+        <span id="generated-QR-code"></span>
     </div>
     <script>
         const button = document.getElementById('button');
@@ -36,7 +36,7 @@
             }).then(function (response) {
                 if (response.ok) {
                     response.json().then((data) => {
-                        generated.innerHTML = "<img src='" + data.fileName + "'/>";
+                        generated.innerHTML = "<div class='qr'><img src='" + data.fileName + "'/></div>";
                     })
                     return Promise.resolve(response);
                 }
