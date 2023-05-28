@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>QR Code Generator</title>
+</head>
+
+<body>
+    <div class="bg-dark fw-bold text-white p-3 mb-2 mx-auto text-center"> QR Code Generator </div>
+    <div class="container form-group">
+        <form id="form" action="qrcode" method="post" class="p-3">
+            <label for="url" class="fw-semibold"> Wprowadź link: </label>
+            <input type="text" name="url" class="form-control" required />
+            <button id="button" type="submit" class="btn btn-dark fw-semibold"> Generuj </button>
+        </form>
+        <div id="generated-QR-code"></div>
+    </div>
+    <script>
+        const button = document.getElementById('button');
+        const form = document.getElementById('form');
+        const generated = document.getElementById("generated-QR-code");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const url = form.url.value;
+            fetch(form.getAttribute("action"), {
+                method: 'POST',
+                body: JSON.stringify({ url: url }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then(function (response) {
+                if (response.ok) {
+                    response.json().then((data) => {
+                        generated.innerHTML = "<img src='" + data.fileName + "'/>";
+                    })
+                    return Promise.resolve(response);
+                }
+                return Promise.reject(response);
+            }).catch(function (error) {
+                console.warn('Something went wrong.', error);
+            });
+        });
+    </script>
+</body>
+
+</html>
